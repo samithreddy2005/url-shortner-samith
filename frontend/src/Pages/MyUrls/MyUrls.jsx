@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Service from '../../utils/http'
-import { Table } from '@mantine/core';
+import { Container, Table } from '@mantine/core';
 
 
 export default function MyUrls() {
@@ -23,7 +23,7 @@ export default function MyUrls() {
        </Table.Tr>
    ));
    return (
-       <div>
+       <Container size={"md"} mt="xl">
            <Table>
                <Table.Thead>
                    <Table.Tr>
@@ -34,6 +34,6 @@ export default function MyUrls() {
                </Table.Thead>
                <Table.Tbody>{rows}</Table.Tbody>
            </Table>
-       </div>
+       </Container>
    )
 }
