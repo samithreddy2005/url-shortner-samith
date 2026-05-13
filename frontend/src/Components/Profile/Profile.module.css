@@ -1,0 +1,106 @@
+.profile-container {
+  max-width: 380px;
+  margin: 50px auto;
+  padding: 35px 28px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow:
+    0 10px 30px rgba(99, 102, 241, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s ease;
+}
+
+.profile-container::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 180px;
+  height: 180px;
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.25),
+    rgba(168, 85, 247, 0.2)
+  );
+  border-radius: 50%;
+}
+
+.profile-container:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow:
+    0 16px 45px rgba(99, 102, 241, 0.22),
+    0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.profile-avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid white;
+  margin-bottom: 20px;
+  z-index: 1;
+  box-shadow:
+    0 6px 18px rgba(99, 102, 241, 0.25),
+    0 0 0 5px rgba(99, 102, 241, 0.12);
+  transition: transform 0.3s ease;
+}
+
+.profile-avatar:hover {
+  transform: scale(1.06) rotate(2deg);
+}
+
+.profile-name {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #312e81;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+  z-index: 1;
+}
+
+.profile-email {
+  font-size: 1rem;
+  color: #6366f1;
+  margin-bottom: 8px;
+  word-break: break-word;
+  text-align: center;
+  z-index: 1;
+}
+
+.profile-id {
+  margin-top: 14px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: linear-gradient(to right, #6366f1, #8b5cf6);
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  z-index: 1;
+}
+
+/* Optional Responsive Design */
+@media (max-width: 480px) {
+  .profile-container {
+    margin: 25px 15px;
+    padding: 28px 20px;
+  }
+
+  .profile-name {
+    font-size: 1.4rem;
+  }
+
+  .profile-avatar {
+    width: 95px;
+    height: 95px;
+  }
+}
