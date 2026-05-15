@@ -7,6 +7,8 @@ import morgan from "morgan"; // Import morgan
 import connectDB from "./db/dbConnect.js";
 import { config } from "./config.js";
 import authRouter from "./routes/authRouter.js";
+
+import userRouter from "./routes/userRouter.js";
 const app = express();
 
 // middlewares
@@ -24,6 +26,8 @@ app.use(morgan("dev")); // Add morgan here for request logging
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+app.use("/api/user", userRouter)
 
 connectDB();
 
