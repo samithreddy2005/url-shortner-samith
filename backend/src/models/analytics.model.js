@@ -13,7 +13,7 @@ const analyticsSchema = new Schema(
       region: String,
     },
     device: {
-      type: String, // mobile, desktop
+      type: { type: String }, // mobile, desktop
       os: String,
       browser: String,
     },
