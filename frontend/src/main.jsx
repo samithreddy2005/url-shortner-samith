@@ -9,14 +9,24 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import App from './App';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
-import { MantineProvider } from '@mantine/core';
+import { createTheme, MantineProvider } from '@mantine/core';
+
+const theme = createTheme({
+  fontFamily: 'Outfit, sans-serif',
+  headings: {
+    fontFamily: 'Outfit, sans-serif',
+    fontWeight: '700',
+  },
+  primaryColor: 'indigo',
+});
+
 const queryClient = new QueryClient();
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <GoogleOAuthProvider clientId={googleClientId}>
-      <MantineProvider>
+      <MantineProvider defaultColorScheme="dark" forceColorScheme="dark" theme={theme}>
         <Notifications zIndex={9999} />
         <QueryClientProvider client={queryClient}>
             <Provider store={store}>

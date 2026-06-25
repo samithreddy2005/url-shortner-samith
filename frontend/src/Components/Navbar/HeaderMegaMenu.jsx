@@ -57,15 +57,22 @@ export function HeaderMegaMenu() {
 
           <Group visibleFrom="sm">
             {isLoggedIn ? (
-              <Button variant="default" onClick={() => dispatch(removeUser())}>
+              <Button 
+                variant="outline" 
+                color="red" 
+                radius="md" 
+                onClick={() => dispatch(removeUser())}
+              >
                 Logout
               </Button>
             ) : (
               <Button
-                variant="default"
+                variant="gradient"
+                gradient={{ from: 'indigo', to: 'violet' }}
+                radius="md"
                 component={Link}
                 to="/login"
-                leftSection={<IconLogin />}
+                leftSection={<IconLogin size={16} />}
               >
                 Log in
               </Button>

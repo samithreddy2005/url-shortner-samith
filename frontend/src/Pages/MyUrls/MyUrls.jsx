@@ -53,12 +53,18 @@ import {
   Modal,
   Button,
   TextInput,
-  Stack
+  Stack,
+  SimpleGrid,
+  Card,
+  ThemeIcon
 } from '@mantine/core'
 
 import {
   IconEdit,
-  IconTrash
+  IconTrash,
+  IconLink,
+  IconEye,
+  IconFlame
 } from '@tabler/icons-react'
 
 export default function MyUrls() {
@@ -150,24 +156,38 @@ export default function MyUrls() {
     }
   }
 
+  // Calculate statistics for current page
+  const totalLinks = data?.totalItems || 0;
+  const pageClicks = data?.shortURLs?.reduce((sum, item) => sum + (item.clickCount || 0), 0) || 0;
+  const mostPopular = data?.shortURLs?.length > 0 
+    ? [...data.shortURLs].sort((a, b) => b.clickCount - a.clickCount)[0] 
+    : null;
+
   const rows = data?.shortURLs?.map((element) => (
-    <Table.Tr key={element._id}>
+    <Table.Tr key={element._id} style={{ borderColor: 'rgba(255, 255, 255, 0.08)' }}>
       <Table.Td>
-        <a
-          href={element.originalUrl}
-          target="_blank"
-          rel="noreferrer"
-          style={{
-            color: "#228be6",
-            textDecoration: "none"
-          }}
-        >
-          {
-            element.originalUrl.length > 45
-              ? element.originalUrl.slice(0, 45) + "..."
-              : element.originalUrl
-          }
-        </a>
+        <Stack gap={2}>
+          <Text fw={600} size="sm" c="white">
+            {element.title || "Untitled Link"}
+          </Text>
+          <a
+            href={element.originalUrl}
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              color: "#a5b4fc",
+              textDecoration: "none",
+              fontSize: "12px",
+              display: "block",
+              maxWidth: "280px",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap"
+            }}
+          >
+            {element.originalUrl}
+          </a>
+        </Stack>
       </Table.Td>
 
       <Table.Td fw={500}>
@@ -176,8 +196,9 @@ export default function MyUrls() {
           target="_blank"
           rel="noreferrer"
           style={{
-            color: "#228be6",
-            textDecoration: "underline"
+            color: "#818cf8",
+            textDecoration: "underline",
+            fontWeight: 600
           }}
         >
           {element.shortCode}
@@ -185,22 +206,37 @@ export default function MyUrls() {
       </Table.Td>
 
       <Table.Td>
-        {element.clickCount}
+        <Group gap="xs">
+          <ThemeIcon size="xs" variant="light" color="indigo">
+            <IconEye size={12} />
+          </ThemeIcon>
+          <Text size="sm" fw={600} c="white">
+            {element.clickCount}
+          </Text>
+        </Group>
       </Table.Td>
 
-      <Table.Td>
+      <Table.Td c="dimmed" size="sm">
         {new Date(element.createdAt).toLocaleDateString()}
       </Table.Td>
 
       <Table.Td>
-        {element.expiresAt ? new Date(element.expiresAt).toLocaleDateString() : "Never"}
+        {element.expiresAt ? (
+          <Text size="sm" c="yellow">
+            {new Date(element.expiresAt).toLocaleDateString()}
+          </Text>
+        ) : (
+          <Text size="sm" c="dimmed">
+            Never
+          </Text>
+        )}
       </Table.Td>
 
       <Table.Td>
         <Group gap="xs">
           <ActionIcon
             variant="light"
-            color="blue"
+            color="indigo"
             radius="md"
             onClick={() => openEditModal(element)}
           >
@@ -221,36 +257,75 @@ export default function MyUrls() {
   ))
 
   return (
-    <Container size="xl" mt="xl">
+    <Container size="xl" mt="xl" style={{ paddingBottom: "80px" }}>
+      {/* Stats Header Grid */}
+      <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="lg" mb="xl">
+        <Card radius="lg" className="glass-panel" p="md">
+          <Group justify="space-between" wrap="nowrap">
+            <div>
+              <Text size="xs" c="dimmed" fw={600} style={{ textTransform: "uppercase" }}>Total Short URLs</Text>
+              <Text size="2rem" fw={800} c="white" mt={4}>{totalLinks}</Text>
+            </div>
+            <ThemeIcon size={48} radius="md" color="blue" variant="light">
+              <IconLink size={24} />
+            </ThemeIcon>
+          </Group>
+        </Card>
+
+        <Card radius="lg" className="glass-panel" p="md">
+          <Group justify="space-between" wrap="nowrap">
+            <div>
+              <Text size="xs" c="dimmed" fw={600} style={{ textTransform: "uppercase" }}>Page Visitor Clicks</Text>
+              <Text size="2rem" fw={800} c="white" mt={4}>{pageClicks}</Text>
+            </div>
+            <ThemeIcon size={48} radius="md" color="violet" variant="light">
+              <IconEye size={24} />
+            </ThemeIcon>
+          </Group>
+        </Card>
+
+        <Card radius="lg" className="glass-panel" p="md">
+          <Group justify="space-between" wrap="nowrap">
+            <div>
+              <Text size="xs" c="dimmed" fw={600} style={{ textTransform: "uppercase" }}>Top Performer Code</Text>
+              <Text size="1.8rem" fw={800} c="white" mt={4} style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
+                {mostPopular ? mostPopular.shortCode : "N/A"}
+              </Text>
+            </div>
+            <ThemeIcon size={48} radius="md" color="orange" variant="light">
+              <IconFlame size={24} />
+            </ThemeIcon>
+          </Group>
+        </Card>
+      </SimpleGrid>
+
+      {/* Main Table Card */}
       <Paper
-        shadow="sm"
-        radius="md"
-        withBorder
-        p="md"
+        shadow="xl"
+        radius="lg"
+        p="xl"
+        className="glass-panel"
       >
         <Table
-          striped
-          highlightOnHover
-          withTableBorder
-          withColumnBorders
           verticalSpacing="md"
           horizontalSpacing="md"
+          style={{ color: '#e2e8f0' }}
         >
-          <Table.Thead bg="#f8f9fa">
+          <Table.Thead style={{ borderBottom: "1px solid rgba(255,255,255,0.15)" }}>
             <Table.Tr>
-              <Table.Th>Original URL</Table.Th>
-              <Table.Th>Short Link</Table.Th>
-              <Table.Th>Clicks</Table.Th>
-              <Table.Th>Created</Table.Th>
-              <Table.Th>Expires</Table.Th>
-              <Table.Th>Actions</Table.Th>
+              <Table.Th style={{ color: 'white', fontWeight: 700 }}>Link Details</Table.Th>
+              <Table.Th style={{ color: 'white', fontWeight: 700 }}>Short Link</Table.Th>
+              <Table.Th style={{ color: 'white', fontWeight: 700 }}>Clicks</Table.Th>
+              <Table.Th style={{ color: 'white', fontWeight: 700 }}>Created</Table.Th>
+              <Table.Th style={{ color: 'white', fontWeight: 700 }}>Expires</Table.Th>
+              <Table.Th style={{ color: 'white', fontWeight: 700 }}>Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
             {rows?.length > 0 ? rows : (
               <Table.Tr>
-                <Table.Td colSpan={6} align="center">
-                  <Text c="dimmed">No short URLs found. Go to URL Shortener page to create one!</Text>
+                <Table.Td colSpan={6} align="center" style={{ padding: "40px 0" }}>
+                  <Text c="dimmed">No short URLs found. Go to the URL Shortener page to create one!</Text>
                 </Table.Td>
               </Table.Tr>
             )}
@@ -260,6 +335,8 @@ export default function MyUrls() {
         <Group
           justify="space-between"
           mt="lg"
+          pt="md"
+          style={{ borderTop: "1px solid rgba(255, 255, 255, 0.05)" }}
         >
           <Text size="sm" c="dimmed">
             Showing {data?.shortURLs?.length > 0 ? (activePage - 1) * 10 + 1 : 0} - {Math.min(activePage * 10, data?.totalItems || 0)} of {data?.totalItems || 0} URLs
@@ -270,6 +347,18 @@ export default function MyUrls() {
             onChange={setActivePage}
             total={data?.totalPages || 1}
             radius="md"
+            styles={{
+              control: {
+                backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                borderColor: 'rgba(255, 255, 255, 0.1)',
+                color: 'white',
+                '&[data-active]': {
+                  background: 'linear-gradient(135deg, #6366f1 0%, #a855f7 100%)',
+                  color: 'white',
+                  border: 0
+                }
+              }
+            }}
           />
         </Group>
       </Paper>

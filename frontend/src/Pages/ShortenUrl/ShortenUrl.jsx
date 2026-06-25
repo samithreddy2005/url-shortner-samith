@@ -13,7 +13,7 @@ export default function ShortenUrl() {
 
         {
           response
-            ? <Response response={response} />
+            ? <Response response={response} setResponse={setResponse} />
             : <Input setResponse={setResponse} />
         }
       </div>

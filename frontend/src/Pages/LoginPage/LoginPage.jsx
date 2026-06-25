@@ -3,6 +3,7 @@ import {
   Center,
   Stack,
   Text,
+  Title,
 } from "@mantine/core";
 import "@mantine/core/styles.css";
 import { GoogleLogin } from "@react-oauth/google";
@@ -12,6 +13,7 @@ import { GOOGLE_AUTH_LOGIN } from "../../utils/urls";
 import { useDispatch, useSelector } from "react-redux";
 import { getIsLoggedIn, setUser } from "../../redux/slices/User";
 import { Navigate, useNavigate } from "react-router-dom";
+import { IconLink } from "@tabler/icons-react";
 
 export default function LoginPage() {
   const service = new Service();
@@ -67,38 +69,58 @@ export default function LoginPage() {
   return (
     <div
       style={{
-        height: "100vh",
+        minHeight: "calc(100vh - 120px)",
         width: "100%",
-        background: "linear-gradient(135deg, #d9afd9 0%, #97d9e1 100%)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        padding: "20px"
       }}
     >
-      <Center style={{ height: "100%", width: "100%" }}>
+      <Center style={{ width: "100%" }}>
         <Card
-          shadow="lg"
+          shadow="xl"
           padding="xl"
           radius="lg"
+          className="glass-panel"
           style={{
-            backgroundColor: "rgba(255, 255, 255, 0.1)",
-            backdropFilter: "blur(10px)",
-            border: "1px solid rgba(255, 255, 255, 0.2)",
             maxWidth: 400,
-            width: "90%",
+            width: "100%",
             textAlign: "center",
+            padding: "40px 30px",
+            border: "1px solid rgba(99, 102, 241, 0.2) !important",
+            boxShadow: "0 20px 50px rgba(0, 0, 0, 0.4) !important"
           }}
         >
-          <Text c="white" my="sm" size="lg">
-            Login to{" "}
-            <Text component="span" fw={700} c="white">
-              Being Zero 
+          <Stack align="center" gap="md">
+            <div 
+              style={{ 
+                background: "linear-gradient(135deg, #6366f1 0%, #a855f7 100%)",
+                width: "56px",
+                height: "56px",
+                borderRadius: "16px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "white",
+                boxShadow: "0 8px 24px rgba(99, 102, 241, 0.4)"
+              }}
+            >
+              <IconLink size={30} />
+            </div>
+
+            <Title order={2} c="white" mt="sm" style={{ fontWeight: 800 }}>
+              Welcome back
+            </Title>
+            
+            <Text c="dimmed" size="sm" style={{ maxWidth: "280px", marginBottom: "15px" }}>
+              Sign in with your Google account to access your shortened links and analytics.
             </Text>
-          </Text>
-          <Stack align="center" spacing="lg">
+
             <GoogleLogin
-              width={250}
-              theme="filled_black"
+              width={280}
+              theme="filled_blue"
+              shape="pill"
               useOneTap={true}
               onSuccess={googleResponse}
             />
